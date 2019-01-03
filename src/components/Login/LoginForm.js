@@ -1,5 +1,7 @@
 import React, {Component} from 'react'
 import {Form, Icon, Input, Button, message} from 'antd';
+import {fetchLogin} from '../../common/fetch'
+
 const FormItem = Form.Item;
 
 class LoginForm extends Component {
@@ -7,15 +9,19 @@ class LoginForm extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     // 获取表单的值
-    this.props.form.validateFields((err, values) => {
-      if (!err && values.userName === localStorage.getItem('string') && values.password === localStorage.getItem('password')) {
-          this.props.loginDone();
-        // API接收登录，但不会校验
-        // fetch_login(Object.assign({}, {action: 'login'}, formData), this.callback);
+    this.props.form.validateFields(async (err, values) => {
+      if (!err && !!values) {
+        try {
+          await fetchLogin(values)
+          await this.props.loginDone();
+        } catch (e) {
+          message.error(e.message)
+          console.dir(e.message)
+        }
       } else {
-        message.error('登录失败!');
+        message.error("登陆错误")
       }
-    });
+    })
   }
 
   render() {
@@ -23,7 +29,7 @@ class LoginForm extends Component {
     return (
       <Form onSubmit={this.handleSubmit} className="login-form">
         <FormItem>
-          {getFieldDecorator('userName', {
+          {getFieldDecorator('username', {
             rules: [{required: true, message: '请输入用户名!'}],
           })(
             <Input prefix={<Icon type="user" style={{fontSize: 13}}/>} placeholder="用户名"/>

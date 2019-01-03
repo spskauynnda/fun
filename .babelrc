@@ -4,5 +4,20 @@
     "react",
     "stage-0"
   ],
-  "plugins": [["import", { "libraryName": "antd", "style": true }]]
+  "plugins": [
+
+//    ["transform-runtime", {
+//      "helpers": false,
+//      "polyfill": false,
+//      "regenerator": true,
+//      "moduleName": "babel-runtime"
+//    }],
+    "transform-runtime",
+    [
+      "import", {
+        "libraryName": "antd",
+        "style": true
+      }
+    ]
+  ]
 }

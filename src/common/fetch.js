@@ -39,24 +39,35 @@ export function fetch_movieDetail(opt) {
 }
 
 // 登录注册
-export function fetch_login(opt) {
+export function fetchLogin(opt) {
   if (!opt) {
     return false;
   }
-  let params = '';
+  let params = ''
   for (let [key, value] of Object.entries(opt)) {
-    params += `&${key}=${value}`;
-    localStorage.setItem(key, value);
+    params += `&${key}=${value}`
+    // localStorage.setItem(key, value)
+    // console.log('key =', key, ', value =', value)
   }
   params = params.substring(1);
-  let LOGIN_PATH = `${config.LOGIN_PATH}?${params}`;
-  return fetch(LOGIN_PATH, {method: 'GET'})
-    .then(response => {
-      return response.json()
+  let url = `${config.LOGIN_PATH}?${params}`
+  return fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-type' : 'application/json'
+      }}
+    ).then(res => res.json())
+    .then(json => {
+      const {code, data} = json
+      if (code !== 0) {
+        // throw new Error({type: 'NotExpect', code})
+        throw new Error('账号密码可能错了哦～')
+      }
+      sessionStorage.setItem("isLogin", 1)
+      sessionStorage.setItem("username", data.username)
+      sessionStorage.setItem("token", data.token)
+      return data
     })
-    .catch(err=>
-      console.log('parsing failed', err)
-    )
 }
 
 // 获取新闻热点

@@ -60,7 +60,7 @@ const NotFoundPage = (location, cb) => {
 /*const HomeContainer = (location, cb) => {
   require.ensure([], require => {
     cb(null, require('../containers/HomeContainer').default)
-  },'HomeContainer')
+  },'HomeContainer'
 }*/
 
 const RootRoter = (

@@ -10,7 +10,7 @@ var APP_FILE = path.resolve(APP_PATH, 'index.js'); // 项目入口的index.js
 module.exports = {
   entry: [
     'webpack/hot/dev-server',
-    'webpack-dev-server/client?http://localhost:8080',
+    'webpack-dev-server/client?http://localhost:8079',
     APP_FILE
   ],
   output: {
@@ -58,7 +58,7 @@ module.exports = {
         NODE_ENV: JSON.stringify('development') //定义生产环境
       }
     }),
-    new OpenBrowserPlugin({url: 'http://localhost:8080/#/'}),
+    new OpenBrowserPlugin({url: 'http://localhost:8079/#/'}),
     new ExtractTextPlugin("app.css")
   ]
 }
